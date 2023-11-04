@@ -6,7 +6,7 @@ import { deleteSongAction } from "../../../Redux/SongReducer";
 interface itemProps {
     url: string;
     title: string;
-    descrption: string;
+    description: string;
     img: string;
     id: number;
 }
@@ -27,7 +27,7 @@ function SingleItem(props: itemProps): JSX.Element {
             <div className="Grid-Child">
                 {props.title}
                 <hr />
-                {props.descrption}
+                {props.description}
                 <hr />
                 <button
                 onClick={() => {

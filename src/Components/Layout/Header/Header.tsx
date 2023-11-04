@@ -20,7 +20,7 @@ function Header(): JSX.Element {
 
     return (
         <div className="Header">
-        <h1>Class 92</h1>
+        <h1>My youtube app</h1>
         total songs: {totalSongs}
         <br />
         total categories:{totalCategories}

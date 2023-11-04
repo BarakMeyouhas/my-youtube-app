@@ -33,7 +33,7 @@ function EditSong(): JSX.Element {
             {/*        
             song description
             <br />
-            <input type="text" value={song?.descption} />
+            <input type="text" value={song?.description} />
             <br />
             */}
             <TextField
