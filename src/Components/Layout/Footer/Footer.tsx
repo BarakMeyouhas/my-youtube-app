@@ -3,7 +3,7 @@ import "./Footer.css";
 function Footer(): JSX.Element {
     return (
         <div className="Footer">
-        <h2>All rights reseved &copy; to zeev Mother in Law</h2>
+        <h2>All rights reseved &copy; to Barak Meyouhas</h2>
         </div>
     );
 }
