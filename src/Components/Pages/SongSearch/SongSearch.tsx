@@ -14,6 +14,7 @@ function SongSearch(): JSX.Element {
             song.title.toLowerCase().includes(searchValue.toLowerCase())
         );
         setFilteredSongs(searchValue ? filtered : []);
+
     };
 
     const handleInputChange = (e: { currentTarget: { value: SetStateAction<string>; }; }) => {
