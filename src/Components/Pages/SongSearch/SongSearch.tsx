@@ -1,24 +1,25 @@
 import { Button, TextField } from '@mui/material';
 import Song from '../../modal/Song';
 import { youtube } from '../../Redux/Store';
-import { SetStateAction, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import SingleItem from '../AddSongForm/SingleItem/SingleItem';
+import SearchIcon from '@mui/icons-material/Search';
+
 
 function SongSearch(): JSX.Element {
     const allSongs = youtube.getState().songs.allSongs;
     const [searchValue, setSearchValue] = useState('');
-    const [filteredSongs, setFilteredSongs] = useState<Song[]>(allSongs);
+    const [filteredSongs, setFilteredSongs] = useState<Song[]>([]);
 
     const handleSearch = () => {
         const filtered = allSongs.filter(song =>
             song.title.toLowerCase().includes(searchValue.toLowerCase())
         );
         setFilteredSongs(searchValue ? filtered : []);
-
     };
 
-    const handleInputChange = (e: { currentTarget: { value: SetStateAction<string>; }; }) => {
-        setSearchValue(e.currentTarget.value);
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value);
     };
 
     return (
@@ -31,20 +32,20 @@ function SongSearch(): JSX.Element {
                 value={searchValue}
                 onChange={handleInputChange}
             />
-            <Button variant="contained" color="primary" onClick={handleSearch}>
-                Search
+             <Button variant="contained" color="primary" onClick={handleSearch} style={{ height: "56px" }}>
+                <SearchIcon />
             </Button>
             <hr />
 
             <div>
                 {filteredSongs.map(song => (
                     <SingleItem
-                    key={song["id"]}
-                    url={song["url"]}
-                    title={song["title"]}
-                    description={song["description"]}
-                    img={song["img"]}
-                    id={song["id"]}
+                        key={song.id}
+                        url={song.url}
+                        title={song.title}
+                        description={song.description}
+                        img={song.img}
+                        id={song.id}
                     />
                 ))}
             </div>

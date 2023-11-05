@@ -45,23 +45,23 @@ export function SongReducer(
 
     switch (action.type) {
         case SongActionType.addSong:
-        newState.allSongs = [...newState.allSongs, action.payload];
+            newState.allSongs = [...newState.allSongs, action.payload];
         break;
 
         case SongActionType.deleteSong:
-        newState.allSongs = [...newState.allSongs].filter(
-            (item) => item.id != action.payload
+            newState.allSongs = [...newState.allSongs].filter(
+                (item) => item.id !== action.payload
         );
         localStorage.setItem("songs", JSON.stringify(newState.allSongs));
         break;
 
         case SongActionType.searchSong:
-        newState.allSongs = newState.allSongs.filter((item) =>
-            item.title.includes(action.payload)
-        );
+            newState.allSongs = [...newState.allSongs].filter((item) =>
+                item.title.includes(action.payload)
+            );
         break;
         case SongActionType.downloadSongs:
-        newState.allSongs = action.payload;
+            newState.allSongs = action.payload;
         break;
     }
     return newState;
