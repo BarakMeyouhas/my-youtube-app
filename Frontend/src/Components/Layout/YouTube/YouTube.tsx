@@ -34,11 +34,16 @@ function YouTube(): JSX.Element {
   }, []);
 
   // Use params.categoryId to filter songs by category
-  const categoryId = Number(params.categoryId) || 0; // Default to 0 if params.categoryId is undefined or not a valid number
+  const categoryId = Number(params.categoryId) || 0;
+  console.log("Category ID:", categoryId);
+  console.log("Category Data:", youtube.getState().category.categories);
+  console.log("All Songs:", youtube.getState().songs.allSongs);
 
   // Check if categoryId is defined to determine whether to filter songs
   const filteredSongs = categoryId
-    ? youtube.getState().songs.allSongs.filter((item) => item.category === categoryId)
+    ? youtube
+        .getState()
+        .songs.allSongs.filter((item) => item.category === categoryId)
     : youtube.getState().songs.allSongs;
 
   return (

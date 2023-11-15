@@ -27,7 +27,6 @@ function AddSongForm(): JSX.Element {
   const [songDesc, setDesc] = useState("");
   const [songImg, setImage] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [category, setCategory] = useState(1);
 
   const navigate = useNavigate();
 

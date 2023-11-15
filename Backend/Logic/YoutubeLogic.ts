@@ -38,11 +38,11 @@ const deleteSongById = async (id: number) => {
 
 const addSong = async (newSong: Song) => {
   const SQLcmd = `
-        INSERT INTO songs
-        (description, img, title, url)
-        VALUES
-        ('${newSong.description}','${newSong.img}','${newSong.title}','${newSong.url}')
-    `;
+    INSERT INTO songs
+    (description, img, title, url, category)
+    VALUES
+    ('${newSong.description}', '${newSong.img}', '${newSong.title}', '${newSong.url}', ${newSong.category})
+  `;
   console.log(SQLcmd);
   const result: OkPacket = await dal_mysql.execute(SQLcmd);
   return result.insertId;
@@ -50,9 +50,9 @@ const addSong = async (newSong: Song) => {
 
 const updateSong = async (song: Song) => {
   const SQLcmd = `
-  UPDATE songs 
-  SET description = '${song.description}', img = '${song.img}', title = '${song.title}'
-  WHERE id = ${song.id};
+    UPDATE songs 
+    SET description = '${song.description}', img = '${song.img}', title = '${song.title}', category = ${song.category}'
+    WHERE id = ${song.id};
   `;
   await dal_mysql.execute(SQLcmd);
   return true;
