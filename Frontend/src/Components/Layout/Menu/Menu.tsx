@@ -1,11 +1,14 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Menu.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { youtube } from "../../Redux/Store";
 import { downloadCategoryAction } from "../../Redux/CategoriesReducer";
 
 function Menu(): JSX.Element {
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -16,8 +19,11 @@ function Menu(): JSX.Element {
         youtube.dispatch(downloadCategoryAction(data));
       } catch (error) {
         console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchCategories();
   }, []);
 
@@ -45,20 +51,18 @@ function Menu(): JSX.Element {
       <div className="myCategories">
         <h3>Categories:</h3>
         <nav>
-          {youtube.getState().category.categories.length > 0 && (
-            <ul className="category-list">
-              {youtube.getState().category.categories.map((item) => (
-                <li key={item.id}>
-                  <NavLink
-                    to={`/category/${item.id}`}
-                    onClick={() => navigate(`/category/${item.id}`)}
-                  >
-                    {item.name}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          )}
+          <ul className="category-list">
+            {youtube.getState().category.categories.map((item) => (
+              <li key={item.id}>
+                <NavLink
+                  to={`/category/${item.id}`}
+                  onClick={() => navigate(`/category/${item.id}`)}
+                >
+                  {item.name}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
         </nav>
       </div>
     </div>

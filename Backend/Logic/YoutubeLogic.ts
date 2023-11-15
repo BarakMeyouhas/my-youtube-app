@@ -51,7 +51,7 @@ const addSong = async (newSong: Song) => {
 const updateSong = async (song: Song) => {
   const SQLcmd = `
   UPDATE songs 
-  SET description = '${song.description}', img = '${song.img}', title = '${song.title}', url = '${song.url}'
+  SET description = '${song.description}', img = '${song.img}', title = '${song.title}'
   WHERE id = ${song.id};
   `;
   await dal_mysql.execute(SQLcmd);

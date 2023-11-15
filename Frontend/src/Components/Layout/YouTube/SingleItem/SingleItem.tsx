@@ -10,7 +10,7 @@ interface itemProps {
   title: string;
   description: string;
   img: string;
-  category: any;
+  category: number;
   categoryName: string;
   id: number;
 }
