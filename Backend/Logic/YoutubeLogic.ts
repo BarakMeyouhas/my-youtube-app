@@ -25,7 +25,7 @@ const getSongById = async (id: number) => {
   //   WHERE id=${id}
   // `;
   const SQLcmd = `SELECT * FROM songs WHERE id=${id}`;
-  
+
   const data = await dal_mysql.execute(SQLcmd);
   return data;
 };
@@ -51,7 +51,7 @@ const addSong = async (newSong: Song) => {
 const updateSong = async (song: Song) => {
   const SQLcmd = `
     UPDATE songs 
-    SET description = '${song.description}', img = '${song.img}', title = '${song.title}', category = ${song.category}'
+    SET description = '${song.description}', img = '${song.img}', title = '${song.title}', category = '${song.category}'
     WHERE id = ${song.id};
   `;
   await dal_mysql.execute(SQLcmd);
@@ -99,9 +99,6 @@ const updateCat = async (cat: Category) => {
   return true;
 };
 
-
-
-
 export {
   getAllSongs,
   getSongById,
@@ -113,5 +110,4 @@ export {
   deleteCatById,
   addCat,
   updateCat,
-
 };

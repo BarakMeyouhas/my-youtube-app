@@ -8,6 +8,17 @@ import {
 } from "../../Redux/CategoriesReducer";
 import { Category } from "../../modal/Category";
 import axios from "axios";
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Button,
+  IconButton,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function AddNewCategory(): JSX.Element {
   const [category, setCategory] = useState("");
@@ -28,36 +39,8 @@ function AddNewCategory(): JSX.Element {
   }, []);
 
   const addNewCat = () => {
-    // let categories;
-    // if (localStorage.getItem("category")){
-    //     // what i need to do if i already have categories???
-    //    categories = JSON.parse(localStorage.getItem("Categories") as any);
-    //    categories.push(category)
-    //    localStorage.setItem("Categories",JSON.stringify(categories));
-    // } else {
-    //    //if i don't have any categories....
-    //    categories = [];
-    //    categories.push(category)
-    //    localStorage.setItem("Categories",JSON.stringify(categories));
-    // }
-    // let categories = localStorage.getItem("Categories")
-    //   ? JSON.parse(localStorage.getItem("Categories") as any)
-    //   : [];
-    // if (categories.includes(category)) {
-    //   alert("i have this shit");
-    //   return;
+    // Implement your logic for adding a new category
   };
-
-  //   const newCategory = new Category(
-  //     youtube.getState().category.categories.length + 1,
-  //     category
-  //   );
-  // categories.push(newCategory);
-  // localStorage.setItem("Categories", JSON.stringify(categories));
-  // youtube.dispatch(addCategoryAction(newCategory));
-  //youtube.getState().category.categories.push(newCategory); => will not work since getting straiעght to events will not
-  //fire the redux
-  //navigate("/");
 
   return (
     <div className="AddNewCategory">
@@ -68,26 +51,38 @@ function AddNewCategory(): JSX.Element {
             setCategory(args.currentTarget.value);
           }}
         />
-        <input type="submit" value="add" onClick={addNewCat} />
+        <Button variant="contained" onClick={addNewCat}>
+          Add
+        </Button>
       </div>
-      <table>
-        <thead>
-          <th>id</th>
-          <th>name</th>
-          <th>Edit</th>
-          <th>Delete</th>
-        </thead>
-        <tbody>
+      <Table style={{ width: "60%" }}>
+        <TableHead>
+          <TableRow>
+            <TableCell>id</TableCell>
+            <TableCell>name</TableCell>
+            <TableCell>Edit</TableCell>
+            <TableCell>Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {youtube.getState().category.categories.map((item) => (
-            <tr>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>✏</td>
-              <td>❌</td>
-            </tr>
+            <TableRow key={item.id}>
+              <TableCell>{item.id}</TableCell>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>
+                <IconButton color="primary">
+                  <EditIcon />
+                </IconButton>
+              </TableCell>
+              <TableCell>
+                <IconButton color="error">
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

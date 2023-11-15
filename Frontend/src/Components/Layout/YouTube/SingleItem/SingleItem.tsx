@@ -1,8 +1,16 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SingleItem.css";
 import { youtube } from "../../../Redux/Store";
 import { deleteSongAction } from "../../../Redux/SongReducer";
-import { Chip } from "@mui/material";
+import {
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 
@@ -17,7 +25,17 @@ interface itemProps {
 }
 
 function SingleItem(props: itemProps): JSX.Element {
-  
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const deleteSong = async () => {
     try {
       await axios.delete(
@@ -27,9 +45,11 @@ function SingleItem(props: itemProps): JSX.Element {
       navigate(`/deleteSong/${props.title}`);
     } catch (error) {
       console.error("Error deleting song:", error);
+    } finally {
+      handleClose(); // Close the modal after the action is completed
     }
   };
-  const navigate = useNavigate();
+
   return (
     <div className="SingleItem">
       <div className="Box" style={{ width: "95%" }}>
@@ -40,7 +60,7 @@ function SingleItem(props: itemProps): JSX.Element {
               navigate(`/player/${props.title}/${props.url.split("=")[1]}`);
             }}
           >
-            <img src={props.img} width={200} />
+            <img src={props.img} width={200} alt={props.title} />
           </div>
           <div className="Grid-Child">
             {props.title}
@@ -52,7 +72,7 @@ function SingleItem(props: itemProps): JSX.Element {
             <Chip
               label="Delete"
               deleteIcon={<DeleteIcon />}
-              onDelete={deleteSong}
+              onClick={handleOpen}
               variant="outlined"
             />
             <Chip
@@ -64,6 +84,25 @@ function SingleItem(props: itemProps): JSX.Element {
           </div>
         </div>
       </div>
+
+      {/* Modal for confirming deletion */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Are you sure you want to delete the song?</DialogTitle>
+        <DialogContent>
+          {/* Add additional details or warnings if needed */}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} style={{ color: "#555555" }}>
+            Cancel
+          </Button>
+          <Button
+            onClick={deleteSong}
+            style={{ color: "#ffffff", backgroundColor: "#e57373" }}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
