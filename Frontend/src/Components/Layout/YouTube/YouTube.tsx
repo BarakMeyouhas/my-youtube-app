@@ -35,9 +35,6 @@ function YouTube(): JSX.Element {
 
   // Use params.categoryId to filter songs by category
   const categoryId = Number(params.categoryId) || 0;
-  console.log("Category ID:", categoryId);
-  console.log("Category Data:", youtube.getState().category.categories);
-  console.log("All Songs:", youtube.getState().songs.allSongs);
 
   // Check if categoryId is defined to determine whether to filter songs
   const filteredSongs = categoryId

@@ -59,6 +59,7 @@ function Menu(): JSX.Element {
                   onClick={() => navigate(`/category/${item.id}`)}
                 >
                   {item.name}
+                  <br /><br />
                 </NavLink>
               </li>
             ))}

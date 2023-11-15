@@ -39,6 +39,7 @@ function AddSongForm(): JSX.Element {
       setTitle(response.data.items[0].snippet.channelTitle);
       setDesc(response.data.items[0].snippet.title);
       setImage(response.data.items[0].snippet.thumbnails.medium.url);
+      console.log(response.data.items[0].snippet.title);
     });
   };
 
