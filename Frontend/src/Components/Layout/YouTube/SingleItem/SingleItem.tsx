@@ -4,6 +4,7 @@ import { youtube } from "../../../Redux/Store";
 import { deleteSongAction } from "../../../Redux/SongReducer";
 import { Chip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import axios from "axios";
 
 interface itemProps {
   url: string;
@@ -14,7 +15,20 @@ interface itemProps {
   categoryName: string;
   id: number;
 }
+
 function SingleItem(props: itemProps): JSX.Element {
+  
+  const deleteSong = async () => {
+    try {
+      await axios.delete(
+        `http://localhost:4000/api/v1/youtube/deleteSongById/${props.id}`
+      );
+      youtube.dispatch(deleteSongAction(props.id));
+      navigate(`/deleteSong/${props.title}`);
+    } catch (error) {
+      console.error("Error deleting song:", error);
+    }
+  };
   const navigate = useNavigate();
   return (
     <div className="SingleItem">
@@ -33,15 +47,12 @@ function SingleItem(props: itemProps): JSX.Element {
             <hr />
             {props.description}
             <hr />
-            Category: {props.categoryName}{" "}
-            <br /><br />
+            Category: {props.categoryName} <br />
+            <br />
             <Chip
               label="Delete"
               deleteIcon={<DeleteIcon />}
-              onDelete={() => {
-                youtube.dispatch(deleteSongAction(props.id));
-                navigate(`/deleteSong/${props.title}`);
-              }}
+              onDelete={deleteSong}
               variant="outlined"
             />
             <Chip

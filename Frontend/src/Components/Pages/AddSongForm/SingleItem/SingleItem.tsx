@@ -12,6 +12,7 @@ interface itemProps {
   description: string;
   img: string;
   id: number;
+  categoryName: string;
 }
 function SingleItem(props: itemProps): JSX.Element {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ function SingleItem(props: itemProps): JSX.Element {
             <hr />
             {props.description}
             <hr />
+            Category: {props.categoryName} <br />
             <Chip
               label="Delete"
               deleteIcon={<DeleteIcon />}

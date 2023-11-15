@@ -31,7 +31,7 @@ function AddSongForm(): JSX.Element {
 
   const navigate = useNavigate();
 
-  const apiKey = "YOUR_YOUTUBE_API_KEY"; // Replace with your YouTube API key
+  const apiKey = "AIzaSyBKQzeoMIHA942XqOho1fwPedksQ5fps2s";
   const apiURL = `https://www.googleapis.com/youtube/v3/videos?part=snippet&key=${apiKey}&id=`;
 
   const searchSong = () => {
@@ -44,23 +44,36 @@ function AddSongForm(): JSX.Element {
   };
 
   const addNewSong = async () => {
+    const selectedCategoryObject = youtube
+      .getState()
+      .category.categories.find((cat) => cat.id === +selectedCategory);
+
     const newSong = new Song(
       songDesc,
       songImg,
       songTitle,
       songURL,
       youtube.getState().songs.allSongs.length + 1,
-      category,
-      selectedCategory
+      selectedCategoryObject ? selectedCategoryObject.id : 1,
+      selectedCategoryObject ? selectedCategoryObject.name : ""
     );
 
-    const id = (
-      await axios.post("http://localhost:4000/api/v1/youtube/addSong", newSong)
-    ).data;
+    console.log("New Song Data:", newSong);
 
-    newSong.id = +id;
-    youtube.dispatch(addSongAction(newSong));
-    navigate("/");
+    try {
+      const id = (
+        await axios.post(
+          "http://localhost:4000/api/v1/youtube/addSong",
+          newSong
+        )
+      ).data;
+
+      newSong.id = +id;
+      youtube.dispatch(addSongAction(newSong));
+      navigate("/");
+    } catch (error) {
+      console.error("Error adding new song:", error);
+    }
   };
 
   return (
@@ -81,7 +94,9 @@ function AddSongForm(): JSX.Element {
           setSelectedCategory(args.currentTarget.value);
         }}
       >
-        <option disabled selected>Select category</option>
+        <option disabled selected>
+          Select category
+        </option>
         {youtube.getState().category.categories.map((category) => (
           <option key={category.id} value={category.id}>
             {category.name}

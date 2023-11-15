@@ -46,6 +46,7 @@ function SongSearch(): JSX.Element {
                         description={song.description}
                         img={song.img}
                         id={song.id}
+                        categoryName={song.categoryName}
                     />
                 ))}
             </div>

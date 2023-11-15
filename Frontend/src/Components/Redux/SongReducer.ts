@@ -54,38 +54,36 @@ export function SongReducer(
       break;
 
     case SongActionType.deleteSong:
-      newState.allSongs = [...newState.allSongs].filter(
+      newState.allSongs = newState.allSongs.filter(
         (item) => item.id !== action.payload
       );
-      localStorage.setItem("songs", JSON.stringify(newState.allSongs));
-      break;
+      return newState;
 
     case SongActionType.searchSong:
       newState.allSongs = [...newState.allSongs].filter((item) =>
         item.title.includes(action.payload)
       );
       break;
+
     case SongActionType.downloadSongs:
       newState.allSongs = action.payload;
       break;
+
     case SongActionType.updateSong:
       // Find the index of the song to be updated
       const index = currentState.allSongs.findIndex(
         (song) => song.id === action.payload.id
       );
-
       // If the song is found, create a new array with the updated song
       if (index !== -1) {
         const updatedSongs = [...currentState.allSongs];
         updatedSongs[index] = action.payload;
-
         // Return the updated state
         return {
           ...currentState,
           allSongs: updatedSongs,
         };
       }
-
       // If the song is not found, return the current state
       return currentState;
 
