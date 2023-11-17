@@ -17,14 +17,32 @@ import {
   TableCell,
   Button,
   IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import deleteSong from "../deleteSong/deleteSong";
 
 function AddNewCategory(): JSX.Element {
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = (categoryId: number) => {
+    setDeleteItemId(categoryId);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setDeleteItemId(null);
+    setOpen(false);
+  };
+
 
   const myCategory = (args: SyntheticEvent) => {
     let value = (args.target as HTMLInputElement).value;
@@ -80,6 +98,8 @@ function AddNewCategory(): JSX.Element {
       
     } catch (error) {
       console.error(`Error deleting category with id ${categoryId}:`, error);
+    } finally {
+      handleClose(); 
     }
   };
 
@@ -118,7 +138,7 @@ function AddNewCategory(): JSX.Element {
               <TableCell>
                 <IconButton
                   color="error"
-                  onClick={() => handleDeleteCategory(item.id)}
+                  onClick={() => handleOpen(item.id)}
                 >
                   {" "}
                   <DeleteIcon />
@@ -128,6 +148,25 @@ function AddNewCategory(): JSX.Element {
           ))}
         </TableBody>
       </Table>
+
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Are you sure you want to delete the category?</DialogTitle>
+        <DialogContent>
+          {/* Additional content if needed */}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} style={{ color: "#555555" }}>
+            Cancel
+          </Button>
+          <Button
+            onClick={() => deleteItemId !== null && handleDeleteCategory(deleteItemId)}
+            style={{ color: "#ffffff", backgroundColor: "#e57373" }}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
