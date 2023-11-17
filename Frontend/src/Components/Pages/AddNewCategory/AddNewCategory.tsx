@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { youtube } from "../../Redux/Store";
 import {
   addCategoryAction,
+  deleteCategoryAction,
   downloadCategoryAction,
 } from "../../Redux/CategoriesReducer";
 import { Category } from "../../modal/Category";
@@ -23,6 +24,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 function AddNewCategory(): JSX.Element {
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
+  const [refresh, setRefresh] = useState(false);
 
   const myCategory = (args: SyntheticEvent) => {
     let value = (args.target as HTMLInputElement).value;
@@ -36,10 +38,49 @@ function AddNewCategory(): JSX.Element {
         .then((response) => response.data)
         .then((data) => youtube.dispatch(downloadCategoryAction(data)));
     }
-  }, []);
+  }, [refresh]);
 
-  const addNewCat = () => {
-    // Implement your logic for adding a new category
+  const addNewCat = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/v1/youtube/addCat",
+        {
+          name: category,
+        }
+      );
+
+      const newCategory: Category = response.data;
+      youtube.dispatch(addCategoryAction(newCategory));
+      // Fetch the latest category list after adding a new category
+      const updatedResponse = await axios.get(
+        "http://localhost:4000/api/v1/youtube/catList"
+      );
+      const updatedData = updatedResponse.data;
+      youtube.dispatch(downloadCategoryAction(updatedData));
+
+      // Update the Redux store immediately after adding a new category
+      setCategory("");
+    } catch (error) {
+      console.error("Error adding new category:", error);
+    }
+    setRefresh(true);
+  };
+
+
+
+  const handleDeleteCategory = async (categoryId: number) => {
+    try {
+      await axios.delete(
+        `http://localhost:4000/api/v1/youtube/deleteCatById/${categoryId}`
+      );
+
+      // Update the Redux store to remove the deleted category
+      youtube.dispatch(deleteCategoryAction(categoryId));
+      setRefresh((prevRefresh) => !prevRefresh);
+      
+    } catch (error) {
+      console.error(`Error deleting category with id ${categoryId}:`, error);
+    }
   };
 
   return (
@@ -75,7 +116,11 @@ function AddNewCategory(): JSX.Element {
                 </IconButton>
               </TableCell>
               <TableCell>
-                <IconButton color="error">
+                <IconButton
+                  color="error"
+                  onClick={() => handleDeleteCategory(item.id)}
+                >
+                  {" "}
                   <DeleteIcon />
                 </IconButton>
               </TableCell>

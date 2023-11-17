@@ -85,11 +85,9 @@ function SingleItem(props: itemProps): JSX.Element {
         </div>
       </div>
 
-      {/* Modal for confirming deletion */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Are you sure you want to delete the song?</DialogTitle>
         <DialogContent>
-          {/* Add additional details or warnings if needed */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} style={{ color: "#555555" }}>
