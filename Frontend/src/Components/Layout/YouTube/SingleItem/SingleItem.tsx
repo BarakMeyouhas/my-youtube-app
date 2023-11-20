@@ -12,8 +12,11 @@ import {
   DialogTitle,
   Button,
   Grid,
+  IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import axios from "axios";
 
 interface itemProps {
@@ -28,6 +31,7 @@ interface itemProps {
 
 function SingleItem(props: itemProps): JSX.Element {
   const [open, setOpen] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -52,6 +56,11 @@ function SingleItem(props: itemProps): JSX.Element {
     }
   };
 
+  const handleLikeClick = () => {
+    setIsLiked(!isLiked);
+    // You can send a request to the server to update the like status here if needed.
+  };
+
   return (
     <Grid item className="SingleItem">
       <Card className="" style={{ width: "95%" }}>
@@ -71,6 +80,10 @@ function SingleItem(props: itemProps): JSX.Element {
             <hr />
             Category: {props.categoryName} <br />
             <br />
+            {/* Use MUI's IconButton with Favorite and FavoriteBorder icons */}
+            <IconButton color="secondary" onClick={handleLikeClick}>
+              {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </IconButton>
             <Chip
               label="Delete"
               deleteIcon={<DeleteIcon />}
@@ -89,8 +102,7 @@ function SingleItem(props: itemProps): JSX.Element {
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Are you sure you want to delete this song?</DialogTitle>
-        <DialogContent>
-        </DialogContent>
+        <DialogContent></DialogContent>
         <DialogActions>
           <Button onClick={handleClose} style={{ color: "#555555" }}>
             Cancel
