@@ -6,6 +6,7 @@ class Song {
     public id: number;
     public category: number;
     public categoryName: string;
+    public favorite: boolean;
     
     constructor(
       description: string,
@@ -15,6 +16,7 @@ class Song {
       id: number,
       category: number,
       categoryName: string,
+      favorite: boolean,
     ) {
       this.description = description;
       this.img = img;
@@ -23,6 +25,7 @@ class Song {
       this.id = id;
       this.category = category;
       this.categoryName = categoryName;
+      this.favorite = favorite;
     }
   }
   

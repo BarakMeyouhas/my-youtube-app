@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SingleItem.css";
 import { youtube } from "../../../Redux/Store";
-import { deleteSongAction } from "../../../Redux/SongReducer";
+import { deleteSongAction, updateFavoriteStatusAction } from "../../../Redux/SongReducer";
 import {
   Card,
   Chip,
@@ -56,9 +56,31 @@ function SingleItem(props: itemProps): JSX.Element {
     }
   };
 
-  const handleLikeClick = () => {
-    setIsLiked(!isLiked);
-    // You can send a request to the server to update the like status here if needed.
+  const handleLikeClick = async () => {
+    try {
+      // Toggle the isLiked state locally
+      setIsLiked(!isLiked);
+
+      // Send a request to update the favorite status in the database
+      await axios.put(
+        `http://localhost:4000/api/v1/youtube/updateFavoriteStatus/${props.id}`,
+        { favorite: !isLiked }
+      );
+
+      // Dispatch the action to update favoriteSongs in the Redux store
+      youtube.dispatch(
+        updateFavoriteStatusAction({
+          ...props,
+          favorite: !isLiked,
+        })
+      );
+      console.log(youtube.getState().songs.favoriteSongs);
+    } catch (error) {
+      console.error(
+        `Error updating favorite status for song with id ${props.id}:`,
+        error
+      );
+    }
   };
 
   return (

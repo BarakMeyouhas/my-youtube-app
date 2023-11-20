@@ -55,7 +55,8 @@ function AddSongForm(): JSX.Element {
       songURL,
       youtube.getState().songs.allSongs.length + 1,
       selectedCategoryObject ? selectedCategoryObject.id : 1,
-      selectedCategoryObject ? selectedCategoryObject.name : ""
+      selectedCategoryObject ? selectedCategoryObject.name : "",
+      false,
     );
 
     console.log("New Song Data:", newSong);

@@ -11,6 +11,8 @@ import {
   deleteCatById,
   addCat,
   updateCat,
+  updateFavoriteStatus,
+  getFavoriteSongs,
 } from "../Logic/YoutubeLogic";
 
 const youtubeRouter = express.Router();
@@ -100,6 +102,42 @@ youtubeRouter.put(
     // Call the updateCat function with categoryId and updatedCategory
 
     return response.status(201).json(updatedCategory);
+  }
+);
+
+youtubeRouter.put(
+  "/updateFavoriteStatus/:id",
+  async (request: Request, response: Response, next: NextFunction) => {
+    const songId = +request.params.id;
+    const { favorite } = request.body;
+
+    try {
+      // Update the favorite status in the database
+      await updateFavoriteStatus(songId, favorite);
+
+      // Respond with a success message
+      return response
+        .status(200)
+        .json({ message: "Favorite status updated successfully." });
+    } catch (error) {
+      console.error(
+        `Error updating favorite status for song with id ${songId}:`,
+        error
+      );
+      return response.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+youtubeRouter.get(
+  "/favoriteSongs",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const favoriteSongs = await getFavoriteSongs();
+      return response.status(200).json(favoriteSongs);
+    } catch (error) {
+      console.error("Error fetching favorite songs:", error);
+      return response.status(500).json({ error: "Internal Server Error" });
+    }
   }
 );
 

@@ -10,7 +10,7 @@ import { Grid } from "@mui/material";
 
 function YouTube(): JSX.Element {
   const params = useParams();
-  const navigate = useNavigate();
+  
 
   const [refresh, setRefresh] = useState(false);
   useEffect(() => {

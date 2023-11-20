@@ -99,6 +99,27 @@ const updateCat = async (cat: Category) => {
   return true;
 };
 
+const updateFavoriteStatus = async (songId: number, favorite: boolean) => {
+  const SQLcmd = `
+    UPDATE Songs
+    SET favorite = ${favorite ? 1 : 0}
+    WHERE id = ${songId};
+  `;
+
+  await dal_mysql.execute(SQLcmd);
+  return true;
+};
+
+const getFavoriteSongs = async () => {
+  const SQLcmd = `
+    SELECT * FROM Songs
+    WHERE favorite = 1;
+  `;
+
+  const result = await dal_mysql.execute(SQLcmd);
+  return result[0];
+};
+
 export {
   getAllSongs,
   getSongById,
@@ -110,4 +131,6 @@ export {
   deleteCatById,
   addCat,
   updateCat,
+  updateFavoriteStatus,
+  getFavoriteSongs,
 };

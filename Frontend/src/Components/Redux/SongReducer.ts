@@ -3,6 +3,7 @@ import Song from "../modal/Song";
 //state of songs
 export class SongState {
   public allSongs: Song[] = [];
+  public favoriteSongs: Song[] = [];
 }
 
 //what action i will use....
@@ -12,6 +13,8 @@ export enum SongActionType {
   searchSong = "searchSong",
   downloadSongs = "downloadSongs",
   updateSong = "updateSong",
+  downloadFavorites = "downloadFavorites",
+  updateFavoriteStatus = "updateFavoriteStatus",
 }
 
 //action data structure
@@ -41,6 +44,14 @@ export function updateSongAction(updatedSong: Song): SongAction {
   return { type: SongActionType.updateSong, payload: updatedSong };
 }
 
+export function downloadFavoritesAction(favoriteSongs: Song[]) {
+  return { type: SongActionType.downloadFavorites, payload: favoriteSongs };
+}
+
+export function updateFavoriteStatusAction(song: Song): SongAction {
+  return { type: SongActionType.updateFavoriteStatus, payload: song };
+}
+
 //reducer - we must use the function signature
 export function SongReducer(
   currentState: SongState = new SongState(),
@@ -67,6 +78,20 @@ export function SongReducer(
 
     case SongActionType.downloadSongs:
       newState.allSongs = action.payload;
+      break;
+
+    case SongActionType.downloadFavorites:
+      // Only update the favorites when downloading favorites
+      newState.favoriteSongs = action.payload;
+      break;
+
+    case SongActionType.updateFavoriteStatus:
+      // Update the favoriteSongs array
+      newState.favoriteSongs = action.payload.favorite
+        ? [...newState.favoriteSongs, action.payload]
+        : newState.favoriteSongs.filter(
+            (song) => song.id !== action.payload.id
+          );
       break;
 
     case SongActionType.updateSong:
