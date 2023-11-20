@@ -117,7 +117,7 @@ const getFavoriteSongs = async () => {
   `;
 
   const result = await dal_mysql.execute(SQLcmd);
-  return result[0];
+  return result;
 };
 
 export {

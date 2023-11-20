@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+// SingleItem.tsx
+
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SingleItem.css";
 import { youtube } from "../../../Redux/Store";
@@ -27,6 +29,7 @@ interface itemProps {
   category: number;
   categoryName: string;
   id: number;
+  isFavorite: boolean;
 }
 
 function SingleItem(props: itemProps): JSX.Element {
@@ -41,6 +44,21 @@ function SingleItem(props: itemProps): JSX.Element {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    // Fetch the list of favorite songs and update the isLiked state accordingly
+    const fetchFavoriteSongs = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/v1/youtube/favoriteSongs");
+        const favoriteSongs = response.data;
+        setIsLiked(favoriteSongs.some((song: { id: number; }) => song.id === props.id));
+      } catch (error) {
+        console.error("Error fetching favorite songs:", error);
+      }
+    };
+
+    fetchFavoriteSongs();
+  }, [props.id]);
 
   const deleteSong = async () => {
     try {
@@ -58,16 +76,11 @@ function SingleItem(props: itemProps): JSX.Element {
 
   const handleLikeClick = async () => {
     try {
-      // Toggle the isLiked state locally
       setIsLiked(!isLiked);
-
-      // Send a request to update the favorite status in the database
       await axios.put(
         `http://localhost:4000/api/v1/youtube/updateFavoriteStatus/${props.id}`,
         { favorite: !isLiked }
       );
-
-      // Dispatch the action to update favoriteSongs in the Redux store
       youtube.dispatch(
         updateFavoriteStatusAction({
           ...props,
@@ -102,7 +115,6 @@ function SingleItem(props: itemProps): JSX.Element {
             <hr />
             Category: {props.categoryName} <br />
             <br />
-            {/* Use MUI's IconButton with Favorite and FavoriteBorder icons */}
             <IconButton color="secondary" onClick={handleLikeClick}>
               {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>

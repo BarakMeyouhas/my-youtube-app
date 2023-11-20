@@ -10,7 +10,6 @@ import { Grid } from "@mui/material";
 
 function YouTube(): JSX.Element {
   const params = useParams();
-  
 
   const [refresh, setRefresh] = useState(false);
   useEffect(() => {
@@ -44,6 +43,8 @@ function YouTube(): JSX.Element {
         .songs.allSongs.filter((item) => item.category === categoryId)
     : youtube.getState().songs.allSongs;
 
+  const favoriteSongs = youtube.getState().songs.favoriteSongs;
+
   return (
     <Grid container spacing={1} className="YouTube">
       {filteredSongs.map((item) => (
@@ -56,6 +57,7 @@ function YouTube(): JSX.Element {
           description={item["description"]}
           img={item["img"]}
           id={item["id"]}
+          isFavorite={favoriteSongs.some((song) => song.id === item["id"])}
         />
       ))}
     </Grid>
