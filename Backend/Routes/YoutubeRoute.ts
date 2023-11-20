@@ -1,4 +1,4 @@
-import { youtube } from '../../Frontend/src/Components/Redux/Store';
+import { youtube } from "../../Frontend/src/Components/Redux/Store";
 import express, { NextFunction, Request, Response } from "express";
 import {
   addSong,
@@ -68,16 +68,16 @@ youtubeRouter.get(
 youtubeRouter.get(
   "/catById/:id",
   async (request: Request, response: Response, next: NextFunction) => {
-    const songID = +request.params.id;
-    return response.status(200).json(await getCatById(songID));
+    const categoryId = +request.params.id;
+    return response.status(200).json(await getCatById(categoryId));
   }
 );
 
 youtubeRouter.delete(
   "/deleteCatById/:id",
   async (request: Request, response: Response, next: NextFunction) => {
-    const songID = +request.params.id;
-    await deleteCatById(songID);
+    const categoryId = +request.params.id;
+    await deleteCatById(categoryId);
     return response.status(200).json({});
   }
 );
@@ -85,17 +85,21 @@ youtubeRouter.delete(
 youtubeRouter.post(
   "/addCat",
   async (request: Request, response: Response, next: NextFunction) => {
-    const newSong = request.body;
-    const result = await addCat(newSong);
+    const newCategory = request.body;
+    const result = await addCat(newCategory);
     return response.status(201).json(`${result}`);
   }
 );
 
 youtubeRouter.put(
-  "/updateCat",
+  "/updateCat/:categoryId",
   async (request: Request, response: Response, next: NextFunction) => {
-    const song = request.body;
-    return response.status(201).json(await updateCat(song));
+    const categoryId = request.params.categoryId;
+    const updatedCategory = request.body;
+
+    // Call the updateCat function with categoryId and updatedCategory
+
+    return response.status(201).json(updatedCategory);
   }
 );
 

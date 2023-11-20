@@ -6,6 +6,7 @@ import {
   addCategoryAction,
   deleteCategoryAction,
   downloadCategoryAction,
+  updateCategoryAction,
 } from "../../Redux/CategoriesReducer";
 import { Category } from "../../modal/Category";
 import axios from "axios";
@@ -32,22 +33,9 @@ function AddNewCategory(): JSX.Element {
   const [refresh, setRefresh] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
-
-  const handleOpen = (categoryId: number) => {
-    setDeleteItemId(categoryId);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setDeleteItemId(null);
-    setOpen(false);
-  };
-
-
-  const myCategory = (args: SyntheticEvent) => {
-    let value = (args.target as HTMLInputElement).value;
-    setCategory(value);
-  };
+  const [editItemId, setEditItemId] = useState<number | null>(null);
+  const [editCategoryName, setEditCategoryName] = useState("");
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   useEffect(() => {
     if (youtube.getState().category.categories.length < 1) {
@@ -84,7 +72,43 @@ function AddNewCategory(): JSX.Element {
     setRefresh(true);
   };
 
+  const handleEditCategorySubmit = async () => {
+    try {
+      if (editItemId === null) {
+        // Handle the case where editItemId is null (optional)
+        console.error("editItemId is null");
+        return;
+      }
 
+      const updatedCategory = {
+        id: editItemId,
+        name: editCategoryName,
+      };
+
+      await axios.put(
+        `http://localhost:4000/api/v1/youtube/updateCat/${editItemId}`,
+        updatedCategory
+      );
+
+      // Update the Redux store to reflect the changes
+      youtube.dispatch(updateCategoryAction(updatedCategory));
+      setRefresh((prevRefresh) => !prevRefresh);
+      handleEditModalClose(); // Close the modal after a successful edit
+    } catch (error) {
+      console.error(`Error updating category with id ${editItemId}:`, error);
+    }
+  };
+
+  const handleOpenEditModal = (categoryId: number, categoryName: string) => {
+    setEditItemId(categoryId);
+    setEditCategoryName(categoryName);
+    setEditModalOpen(true);
+  };
+  const handleEditModalClose = () => {
+    setEditItemId(null);
+    setEditCategoryName("");
+    setEditModalOpen(false);
+  };
 
   const handleDeleteCategory = async (categoryId: number) => {
     try {
@@ -95,12 +119,20 @@ function AddNewCategory(): JSX.Element {
       // Update the Redux store to remove the deleted category
       youtube.dispatch(deleteCategoryAction(categoryId));
       setRefresh((prevRefresh) => !prevRefresh);
-      
     } catch (error) {
       console.error(`Error deleting category with id ${categoryId}:`, error);
     } finally {
-      handleClose(); 
+      handleClose();
     }
+  };
+  const handleOpen = (categoryId: number) => {
+    setDeleteItemId(categoryId);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setDeleteItemId(null);
+    setOpen(false);
   };
 
   return (
@@ -131,15 +163,15 @@ function AddNewCategory(): JSX.Element {
               <TableCell>{item.id}</TableCell>
               <TableCell>{item.name}</TableCell>
               <TableCell>
-                <IconButton color="primary">
+                <IconButton
+                  color="primary"
+                  onClick={() => handleOpenEditModal(item.id, item.name)}
+                >
                   <EditIcon />
                 </IconButton>
               </TableCell>
               <TableCell>
-                <IconButton
-                  color="error"
-                  onClick={() => handleOpen(item.id)}
-                >
+                <IconButton color="error" onClick={() => handleOpen(item.id)}>
                   {" "}
                   <DeleteIcon />
                 </IconButton>
@@ -149,18 +181,41 @@ function AddNewCategory(): JSX.Element {
         </TableBody>
       </Table>
 
+      <Dialog open={editModalOpen} onClose={handleEditModalClose}>
+        <DialogTitle>Edit Category</DialogTitle>
+        <DialogContent>
+          <input
+            type="text"
+            value={editCategoryName}
+            onChange={(e) => setEditCategoryName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleEditModalClose} style={{ color: "#555555" }}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleEditCategorySubmit}
+            style={{ color: "#ffffff", backgroundColor: "#4caf50" }}
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Are you sure you want to delete the category?</DialogTitle>
-        <DialogContent>
-          {/* Additional content if needed */}
-        </DialogContent>
+        <DialogTitle>
+          Are you sure you want to delete this category?
+        </DialogTitle>
+        <DialogContent>{}</DialogContent>
         <DialogActions>
           <Button onClick={handleClose} style={{ color: "#555555" }}>
             Cancel
           </Button>
           <Button
-            onClick={() => deleteItemId !== null && handleDeleteCategory(deleteItemId)}
+            onClick={() =>
+              deleteItemId !== null && handleDeleteCategory(deleteItemId)
+            }
             style={{ color: "#ffffff", backgroundColor: "#e57373" }}
           >
             Delete

@@ -6,6 +6,7 @@ import { youtube } from "../../Redux/Store";
 import { downloadSongsAction } from "../../Redux/SongReducer";
 import axios from "axios";
 import { downloadCategoryAction } from "../../Redux/CategoriesReducer";
+import { Grid } from "@mui/material";
 
 function YouTube(): JSX.Element {
   const params = useParams();
@@ -44,7 +45,7 @@ function YouTube(): JSX.Element {
     : youtube.getState().songs.allSongs;
 
   return (
-    <div className="YouTube">
+    <Grid container spacing={1} className="YouTube">
       {filteredSongs.map((item) => (
         <SingleItem
           key={item["id"]}
@@ -57,7 +58,7 @@ function YouTube(): JSX.Element {
           id={item["id"]}
         />
       ))}
-    </div>
+    </Grid>
   );
 }
 

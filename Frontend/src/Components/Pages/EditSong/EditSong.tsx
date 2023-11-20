@@ -63,7 +63,7 @@ function EditSong(): JSX.Element {
         img: updatedImg,
         category: selectedCategory,
         url: "",
-        categoryName: updatedCategory ? updatedCategory.name : "", // Set categoryName based on the selected category
+        categoryName: updatedCategory ? updatedCategory.name : "",
       };
 
       console.log("Updated Song Object:", updatedSong);

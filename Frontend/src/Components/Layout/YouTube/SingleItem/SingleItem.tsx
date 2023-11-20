@@ -4,12 +4,14 @@ import "./SingleItem.css";
 import { youtube } from "../../../Redux/Store";
 import { deleteSongAction } from "../../../Redux/SongReducer";
 import {
+  Card,
   Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Button,
+  Grid,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
@@ -51,8 +53,8 @@ function SingleItem(props: itemProps): JSX.Element {
   };
 
   return (
-    <div className="SingleItem">
-      <div className="Box" style={{ width: "95%" }}>
+    <Grid item className="SingleItem">
+      <Card className="" style={{ width: "95%" }}>
         <div className="Grid-Parent">
           <div
             className="Grid-Child"
@@ -83,10 +85,10 @@ function SingleItem(props: itemProps): JSX.Element {
             />
           </div>
         </div>
-      </div>
+      </Card>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Are you sure you want to delete the song?</DialogTitle>
+        <DialogTitle>Are you sure you want to delete this song?</DialogTitle>
         <DialogContent>
         </DialogContent>
         <DialogActions>
@@ -101,7 +103,7 @@ function SingleItem(props: itemProps): JSX.Element {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Grid>
   );
 }
 
