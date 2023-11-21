@@ -3,10 +3,10 @@ import { youtube } from "../../Redux/Store";
 import "./MyFavorites.css";
 import axios from "axios";
 import { downloadFavoritesAction } from "../../Redux/SongReducer";
-import { Grid } from "@mui/material";
 import SingleItem from "./SingleItem/SingleItem";
 import { downloadCategoryAction } from "../../Redux/CategoriesReducer";
 import { useParams } from "react-router-dom";
+import { Grid, Typography } from "@mui/material";
 
 function MyFavorites(): JSX.Element {
   const [refresh, setRefresh] = useState(false);
@@ -51,28 +51,35 @@ function MyFavorites(): JSX.Element {
   }, []);
 
   return (
-    <Grid container spacing={1} className="YouTube">
-      {favoriteSongs.map((item) => {
-        // Find the category information for the current song
-        const categoryInfo = youtube
-          .getState()
-          .category.categories.find((category) => category.id === item.category);
+    <div className="favorites-container">
+      <Typography variant="h4" gutterBottom>
+        My Favorite Songs
+      </Typography>
+      <Grid container spacing={1} className="YouTube">
+        {favoriteSongs.map((item) => {
+          // Find the category information for the current song
+          const categoryInfo = youtube
+            .getState()
+            .category.categories.find(
+              (category) => category.id === item.category
+            );
 
-        return (
-          <SingleItem
-            key={item.id}
-            url={item.url}
-            category={item.category}
-            categoryName={categoryInfo ? categoryInfo.name : ""}
-            title={item.title}
-            description={item.description}
-            img={item.img}
-            id={item.id}
-            isFavorite={true}
-          />
-        );
-      })}
-    </Grid>
+          return (
+            <SingleItem
+              key={item.id}
+              url={item.url}
+              category={item.category}
+              categoryName={categoryInfo ? categoryInfo.name : ""}
+              title={item.title}
+              description={item.description}
+              img={item.img}
+              id={item.id}
+              isFavorite={true}
+            />
+          );
+        })}
+      </Grid>
+    </div>
   );
 }
 

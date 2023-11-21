@@ -6,8 +6,6 @@ import express from "express";
 import fileUpload from "express-fileupload";
 import config from "./Utils/Config";
 import ErrorHandler from "./MiddleWare/route-not-found";
-import router from "./Routes/SimpleRouter";
-import carRouter from "./Routes/CarRouter";
 import youtubeRouter from './Routes/YoutubeRoute';
 
 //create server
@@ -28,8 +26,6 @@ server.use(express.static("upload"));
 server.use(fileUpload({ createParentPath: true }));
 
 //using routes => localhost:4000/api/v1/test/checkOK
-server.use("/api/v1/test", router);
-server.use("/api/v1/car", carRouter);
 server.use("/api/v1/youtube", youtubeRouter);
 //handle errors(Route Not Found);
 server.use("*", ErrorHandler);
