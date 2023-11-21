@@ -18,7 +18,6 @@ import { updateSongAction } from "../../Redux/SongReducer";
 
 function EditSong(): JSX.Element {
   const params = useParams();
-  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
 
   if (params.id) {

@@ -2,9 +2,9 @@ import MainRoute from "../../Routing/MainRoute/MainRoute";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Home from "../Home/Home";
-import Menu from "../Menu/Menu";
 import YouTube from "../YouTube/YouTube";
 import "./MainLayout.css";
+import Menu from "../Menu/Menu"
 
 function MainLayout(): JSX.Element {
     return (
