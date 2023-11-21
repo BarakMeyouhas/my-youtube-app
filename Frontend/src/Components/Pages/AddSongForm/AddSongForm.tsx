@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { youtube } from "../../Redux/Store";
 import { addSongAction } from "../../Redux/SongReducer";
 import { downloadCategoryAction } from "../../Redux/CategoriesReducer";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { Select, MenuItem, Typography } from "@mui/material";
 
 function AddSongForm(): JSX.Element {
   const [refresh, setRefresh] = useState(false);
@@ -56,7 +59,7 @@ function AddSongForm(): JSX.Element {
       youtube.getState().songs.allSongs.length + 1,
       selectedCategoryObject ? selectedCategoryObject.id : 1,
       selectedCategoryObject ? selectedCategoryObject.name : "",
-      false,
+      false
     );
 
     console.log("New Song Data:", newSong);
@@ -79,31 +82,40 @@ function AddSongForm(): JSX.Element {
 
   return (
     <div className="AddSongForm">
-      <h1>add new song</h1>
+      <Typography variant="h4" gutterBottom>
+        Add new song
+      </Typography>
       <hr />
-      <input
+      <TextField
         type="url"
-        onKeyUp={(args) => {
-          setURL(args.currentTarget.value);
-        }}
+        label="Song URL"
+        variant="outlined"
+        onKeyUp={(e) => setURL((e.target as HTMLInputElement).value)}
       />
-      <input type="submit" value="search" onClick={searchSong} />
+      <Button variant="contained" color="primary" onClick={searchSong} style={{ height: "56px" }}>
+        Search
+      </Button>
       <br />
       <br />
-      <select
+      <Select
         onChange={(args) => {
-          setSelectedCategory(args.currentTarget.value);
+          setSelectedCategory(args.target.value);
         }}
+        value={selectedCategory}
+        required
+        displayEmpty
+        placeholder="Select category"
       >
-        <option disabled selected>
+        <MenuItem disabled value="" aria-required>
           Select category
-        </option>
+        </MenuItem>
         {youtube.getState().category.categories.map((category) => (
-          <option key={category.id} value={category.id}>
+          <MenuItem key={category.id} value={category.id}>
             {category.name}
-          </option>
+          </MenuItem>
         ))}
-      </select>
+      </Select>
+      
       <hr />
       <img src={songImg} alt={songTitle} />
       <br />
@@ -113,7 +125,10 @@ function AddSongForm(): JSX.Element {
       <h3>{songDesc}</h3>
       <br />
       <hr />
-      <input type="submit" value="add song" onClick={addNewSong} />
+
+      <Button variant="contained" color="primary" onClick={addNewSong}>
+        add song
+      </Button>
     </div>
   );
 }

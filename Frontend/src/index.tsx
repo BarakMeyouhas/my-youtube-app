@@ -1,11 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-
-
 import reportWebVitals from "./reportWebVitals";
 import MainLayout from "./Components/Layout/MainLayout/MainLayout";
 import { BrowserRouter } from "react-router-dom";
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+/>
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement

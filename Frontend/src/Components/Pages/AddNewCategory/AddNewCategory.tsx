@@ -22,6 +22,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  TextField,
+  Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -57,14 +59,11 @@ function AddNewCategory(): JSX.Element {
 
       const newCategory: Category = response.data;
       youtube.dispatch(addCategoryAction(newCategory));
-      // Fetch the latest category list after adding a new category
       const updatedResponse = await axios.get(
         "http://localhost:4000/api/v1/youtube/catList"
       );
       const updatedData = updatedResponse.data;
       youtube.dispatch(downloadCategoryAction(updatedData));
-
-      // Update the Redux store immediately after adding a new category
       setCategory("");
     } catch (error) {
       console.error("Error adding new category:", error);
@@ -75,7 +74,6 @@ function AddNewCategory(): JSX.Element {
   const handleEditCategorySubmit = async () => {
     try {
       if (editItemId === null) {
-        // Handle the case where editItemId is null (optional)
         console.error("editItemId is null");
         return;
       }
@@ -89,11 +87,9 @@ function AddNewCategory(): JSX.Element {
         `http://localhost:4000/api/v1/youtube/updateCat/${editItemId}`,
         updatedCategory
       );
-
-      // Update the Redux store to reflect the changes
       youtube.dispatch(updateCategoryAction(updatedCategory));
       setRefresh((prevRefresh) => !prevRefresh);
-      handleEditModalClose(); // Close the modal after a successful edit
+      handleEditModalClose();
     } catch (error) {
       console.error(`Error updating category with id ${editItemId}:`, error);
     }
@@ -116,7 +112,6 @@ function AddNewCategory(): JSX.Element {
         `http://localhost:4000/api/v1/youtube/deleteCatById/${categoryId}`
       );
 
-      // Update the Redux store to remove the deleted category
       youtube.dispatch(deleteCategoryAction(categoryId));
       setRefresh((prevRefresh) => !prevRefresh);
     } catch (error) {
@@ -137,14 +132,17 @@ function AddNewCategory(): JSX.Element {
 
   return (
     <div className="AddNewCategory">
+      <Typography variant="h4" gutterBottom>
+        Add new category
+      </Typography>
       <div className="Box">
-        <input
+        <TextField
           placeholder="Category name..."
           onKeyUp={(args) => {
-            setCategory(args.currentTarget.value);
+            setCategory((args.target as HTMLInputElement).value);
           }}
         />
-        <Button variant="contained" onClick={addNewCat}>
+        <Button variant="contained" onClick={addNewCat} style={{ height: "56px" }}>
           Add
         </Button>
       </div>
