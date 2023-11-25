@@ -4,7 +4,7 @@ This is a React web application with Node.js as the backend service and MySQL as
 
 ## Technologies Used
 
-- React v16.0
+- React v18.2
 - Node.js v18.15.0
 - MySQL v8.0.33
 
