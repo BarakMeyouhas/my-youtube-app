@@ -10,6 +10,7 @@ import "./MainRoute.css";
 import AddNewCategory from "../../Pages/AddNewCategory/AddNewCategory";
 import DeleteSong from "../../Pages/deleteSong/deleteSong";
 import EditSong from "../../Pages/EditSong/EditSong";
+import About from "../../Pages/About/About";
 
 function MainRoute(): JSX.Element {
   return (
@@ -26,6 +27,7 @@ function MainRoute(): JSX.Element {
         <Route path="/deleteSong/:title" element={<DeleteSong />} />
         <Route path="/editSong/:id" element={<EditSong />} />
         <Route path="*" element={<Page404 />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </div>
   );

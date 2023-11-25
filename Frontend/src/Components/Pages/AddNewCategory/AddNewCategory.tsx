@@ -142,14 +142,17 @@ function AddNewCategory(): JSX.Element {
             setCategory((args.target as HTMLInputElement).value);
           }}
         />
-        <Button variant="contained" onClick={addNewCat} style={{ height: "56px" }}>
+        <Button
+          variant="contained"
+          onClick={addNewCat}
+          style={{ height: "56px" }}
+        >
           Add
         </Button>
       </div>
       <Table style={{ width: "60%" }}>
         <TableHead>
           <TableRow>
-            <TableCell>id</TableCell>
             <TableCell>name</TableCell>
             <TableCell>Edit</TableCell>
             <TableCell>Delete</TableCell>
@@ -158,7 +161,6 @@ function AddNewCategory(): JSX.Element {
         <TableBody>
           {youtube.getState().category.categories.map((item) => (
             <TableRow key={item.id}>
-              <TableCell>{item.id}</TableCell>
               <TableCell>{item.name}</TableCell>
               <TableCell>
                 <IconButton

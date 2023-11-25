@@ -6,7 +6,7 @@ import { youtube } from "../../Redux/Store";
 import { downloadSongsAction } from "../../Redux/SongReducer";
 import axios from "axios";
 import { downloadCategoryAction } from "../../Redux/CategoriesReducer";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 function YouTube(): JSX.Element {
   const params = useParams();
@@ -46,21 +46,22 @@ function YouTube(): JSX.Element {
   const favoriteSongs = youtube.getState().songs.favoriteSongs;
 
   return (
-    <Grid container spacing={1} className="YouTube">
-      {filteredSongs.map((item) => (
-        <SingleItem
-          key={item["id"]}
-          url={item["url"]}
-          category={item["category"]}
-          categoryName={item["categoryName"]}
-          title={item["title"]}
-          description={item["description"]}
-          img={item["img"]}
-          id={item["id"]}
-          isFavorite={favoriteSongs.some((song) => song.id === item["id"])}
-        />
-      ))}
-    </Grid>
+    <><Typography variant="h4" gutterBottom>
+      All Songs
+    </Typography><Grid container spacing={1} className="YouTube">
+        {filteredSongs.map((item) => (
+          <SingleItem
+            key={item["id"]}
+            url={item["url"]}
+            category={item["category"]}
+            categoryName={item["categoryName"]}
+            title={item["title"]}
+            description={item["description"]}
+            img={item["img"]}
+            id={item["id"]}
+            isFavorite={favoriteSongs.some((song) => song.id === item["id"])} />
+        ))}
+      </Grid></>
   );
 }
 

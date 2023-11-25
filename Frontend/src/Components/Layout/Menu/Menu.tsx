@@ -107,7 +107,7 @@ export function Menu(): JSX.Element {
             <ListItemIcon>
               <InfoIcon />
             </ListItemIcon>
-            <ListItemText primary="About Us" />
+            <ListItemText primary="About the app" />
           </ListItem>
         </List>
         <Divider />

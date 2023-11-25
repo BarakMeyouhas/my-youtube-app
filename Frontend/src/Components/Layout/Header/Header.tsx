@@ -45,11 +45,11 @@ const Header = (): JSX.Element => {
             >
               My YouTube App
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+            {/* <IconButton color="inherit">
+              <Badge badgeContent={5} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
           </Toolbar>
         </AppBar>
         <main>
