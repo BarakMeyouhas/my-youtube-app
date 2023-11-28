@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { youtube } from "../../Redux/Store";
 import { downloadCategoryAction } from "../../Redux/CategoriesReducer";
@@ -10,6 +10,9 @@ import {
   ListItemText,
   Divider,
   Collapse,
+  Toolbar,
+  IconButton,
+  Typography,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -20,49 +23,37 @@ import InfoIcon from "@mui/icons-material/Info";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-export function Menu(): JSX.Element {
+export function Menu({
+  open,
+  handleDrawerToggle,
+}: {
+  open: boolean;
+  handleDrawerToggle: () => void;
+}): JSX.Element {
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(true);
   const [openCategories, setOpenCategories] = useState(false);
 
   const MyNavLink = React.forwardRef<any, any>((props, ref) => (
     <NavLink
       ref={ref}
       to={props.to}
-      className={({ isActive }) => `${props.className} ${isActive ? props.activeClassName : ''}`}
+      className={({ isActive }) =>
+        `${props.className} ${isActive ? props.activeClassName : ""}`
+      }
     >
       {props.children}
     </NavLink>
   ));
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:4000/api/v1/youtube/catList"
-        );
-        const data = await response.json();
-        youtube.dispatch(downloadCategoryAction(data));
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   const handleCategoriesClick = () => {
     setOpenCategories(!openCategories);
   };
 
   return (
-    <Drawer variant="permanent">
+    <Drawer variant="temporary" open={open} onClose={handleDrawerToggle}>
       <div className="Menu">
         <h2>Main Menu</h2>
-        
         <Divider />
         <List>
           <ListItem component={MyNavLink} to="/" activeClassName="active" exact>
@@ -71,7 +62,11 @@ export function Menu(): JSX.Element {
             </ListItemIcon>
             <ListItemText primary="All Songs" />
           </ListItem>
-          <ListItem component={MyNavLink} to="/addSong" activeClassName="active">
+          <ListItem
+            component={MyNavLink}
+            to="/addSong"
+            activeClassName="active"
+          >
             <ListItemIcon>
               <AddCircleIcon />
             </ListItemIcon>
@@ -123,7 +118,10 @@ export function Menu(): JSX.Element {
                   <ListItem key={item.id}>
                     <NavLink
                       to={`/category/${item.id}`}
-                      onClick={() => navigate(`/category/${item.id}`)}
+                      onClick={() => {
+                        handleDrawerToggle(); // Close the drawer when a category is clicked
+                        navigate(`/category/${item.id}`);
+                      }}
                     >
                       <ListItemText primary={item.name} />
                     </NavLink>
@@ -137,4 +135,5 @@ export function Menu(): JSX.Element {
     </Drawer>
   );
 }
+
 export default Menu;

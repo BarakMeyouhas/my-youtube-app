@@ -38,6 +38,7 @@ function About(): JSX.Element {
         <Typography variant="body1" paragraph className="contact-text">
           If you have any questions or feedback, feel free to contact me at
           barakm25@gmail.com.
+          and my <a target="_blank" href="https://github.com/BarakMeyouhas">GitHub account</a>
         </Typography>
       </Paper>
     </Container>
