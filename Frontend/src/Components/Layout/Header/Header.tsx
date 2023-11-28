@@ -46,7 +46,6 @@ const Header = ({
             </Typography>
           </Toolbar>
         </AppBar>
-        {/* The rest of the Header component remains the same */}
       </Box>
     </ThemeProvider>
   );
