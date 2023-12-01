@@ -4,6 +4,7 @@
     border-radius: 8px;
     overflow: hidden;
     background-color: #fff;
+    margin-bottom: 8px;
   }
   
   .SingleItem:hover {

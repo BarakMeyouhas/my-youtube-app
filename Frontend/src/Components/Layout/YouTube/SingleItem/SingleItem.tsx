@@ -15,6 +15,7 @@ import {
   Button,
   Grid,
   IconButton,
+  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -97,8 +98,8 @@ function SingleItem(props: itemProps): JSX.Element {
   };
 
   return (
-    <Grid item className="SingleItem">
-      <Card className="" style={{ width: "95%" }}>
+    <Grid item className="SingleItem" sx={{ mb: 2 }}>
+      <Box sx={{ mr: 4 }}>
         <div className="Grid-Parent">
           <div
             className="Grid-Child"
@@ -132,7 +133,7 @@ function SingleItem(props: itemProps): JSX.Element {
             />
           </div>
         </div>
-      </Card>
+      </Box>
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Are you sure you want to delete this song?</DialogTitle>

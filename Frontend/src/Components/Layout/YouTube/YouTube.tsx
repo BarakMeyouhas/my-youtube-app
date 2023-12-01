@@ -46,9 +46,11 @@ function YouTube(): JSX.Element {
   const favoriteSongs = youtube.getState().songs.favoriteSongs;
 
   return (
-    <><Typography variant="h4" gutterBottom>
-      All Songs
-    </Typography><Grid container spacing={1} className="YouTube">
+    <>
+      <Typography variant="h4" gutterBottom>
+        All Songs
+      </Typography>
+      <Grid container spacing={1} className="YouTube">
         {filteredSongs.map((item) => (
           <SingleItem
             key={item["id"]}
@@ -59,9 +61,11 @@ function YouTube(): JSX.Element {
             description={item["description"]}
             img={item["img"]}
             id={item["id"]}
-            isFavorite={favoriteSongs.some((song) => song.id === item["id"])} />
+            isFavorite={favoriteSongs.some((song) => song.id === item["id"])}
+          />
         ))}
-      </Grid></>
+      </Grid>
+    </>
   );
 }
 

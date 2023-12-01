@@ -23,15 +23,10 @@ import InfoIcon from "@mui/icons-material/Info";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-export function Menu({
-  open,
-  handleDrawerToggle,
-}: {
-  open: boolean;
-  handleDrawerToggle: () => void;
-}): JSX.Element {
+export function Menu({open,handleDrawerToggle,}
+  : {open: boolean; handleDrawerToggle: () => void;}): JSX.Element {
+  
   const navigate = useNavigate();
-
   const [openCategories, setOpenCategories] = useState(false);
 
   const MyNavLink = React.forwardRef<any, any>((props, ref) => (
