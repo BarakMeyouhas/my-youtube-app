@@ -2,8 +2,8 @@ import { Button, TextField, Typography } from "@mui/material";
 import Song from "../../modal/Song";
 import { youtube } from "../../Redux/Store";
 import { ChangeEvent, useState } from "react";
-import SingleItem from "../AddSongForm/SingleItem/SingleItem";
 import SearchIcon from "@mui/icons-material/Search";
+import SingleItem from "../../Layout/YouTube/SingleItem/SingleItem";
 
 function SongSearch(): JSX.Element {
   const allSongs = youtube.getState().songs.allSongs;
@@ -53,6 +53,8 @@ function SongSearch(): JSX.Element {
             img={song.img}
             id={song.id}
             categoryName={song.categoryName}
+            category={0}
+            isFavorite={false}
           />
         ))}
       </div>

@@ -6,7 +6,7 @@ import { downloadFavoritesAction } from "../../Redux/SongReducer";
 import SingleItem from "./SingleItem/SingleItem";
 import { downloadCategoryAction } from "../../Redux/CategoriesReducer";
 import { useParams } from "react-router-dom";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 
 function MyFavorites(): JSX.Element {
   const [refresh, setRefresh] = useState(false);
@@ -55,7 +55,8 @@ function MyFavorites(): JSX.Element {
       <Typography variant="h4" gutterBottom>
         My Favorite Songs
       </Typography>
-      <Grid container spacing={1} className="YouTube">
+      <Stack spacing={1} className="YouTube">
+        {" "}
         {favoriteSongs.map((item) => {
           // Find the category information for the current song
           const categoryInfo = youtube
@@ -78,7 +79,7 @@ function MyFavorites(): JSX.Element {
             />
           );
         })}
-      </Grid>
+      </Stack>
     </div>
   );
 }
