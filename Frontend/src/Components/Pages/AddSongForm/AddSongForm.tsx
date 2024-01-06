@@ -6,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { youtube } from "../../Redux/Store";
 import { addSongAction } from "../../Redux/SongReducer";
 import { downloadCategoryAction } from "../../Redux/CategoriesReducer";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Select, MenuItem, Typography } from "@mui/material";
+import {Typography } from "@mui/material";
+import { TextField, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import { Category } from "../../modal/Category";
+
 
 function AddSongForm(): JSX.Element {
   const [refresh, setRefresh] = useState(false);
@@ -49,7 +51,7 @@ function AddSongForm(): JSX.Element {
   const addNewSong = async () => {
     const selectedCategoryObject = youtube
       .getState()
-      .category.categories.find((cat) => cat.id === +selectedCategory);
+      .category.categories.find((cat : Category) => cat.id === +selectedCategory);
 
     const newSong = new Song(
       songDesc,
@@ -109,7 +111,7 @@ function AddSongForm(): JSX.Element {
         <MenuItem disabled value="" aria-required>
           Select category
         </MenuItem>
-        {youtube.getState().category.categories.map((category) => (
+        {youtube.getState().category.categories.map((category: Category) => (
           <MenuItem key={category.id} value={category.id}>
             {category.name}
           </MenuItem>

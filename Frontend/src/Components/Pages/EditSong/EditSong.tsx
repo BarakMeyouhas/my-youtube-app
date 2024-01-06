@@ -63,7 +63,7 @@ function EditSong(): JSX.Element {
         category: selectedCategory,
         url: "",
         categoryName: updatedCategory ? updatedCategory.name : "",
-        favorite: false, 
+        favorite: false,
       };
 
       console.log("Updated Song Object:", updatedSong);

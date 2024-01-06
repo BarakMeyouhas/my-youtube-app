@@ -22,7 +22,6 @@ function About(): JSX.Element {
           <li>Categorize songs into different categories.</li>
           <li>View all songs and filter them based on categories.</li>
           <li>Mark your favorite songs and view them in the Favorites section.</li>
-          <li>Learn more about the app and its creators in the About Us section.</li>
         </ul>
         <Typography variant="h5" gutterBottom className="get-started-heading">
           How to Get Started:

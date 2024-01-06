@@ -1,10 +1,12 @@
 // SingleItem.tsx
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SingleItem.css";
 import { youtube } from "../../../Redux/Store";
-import { deleteSongAction, updateFavoriteStatusAction } from "../../../Redux/SongReducer";
+import {
+  deleteSongAction,
+  updateFavoriteStatusAction,
+} from "../../../Redux/SongReducer";
 import {
   Card,
   Chip,
@@ -16,6 +18,7 @@ import {
   Grid,
   IconButton,
   Box,
+  Paper,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -47,12 +50,15 @@ function SingleItem(props: itemProps): JSX.Element {
   };
 
   useEffect(() => {
-    // Fetch the list of favorite songs and update the isLiked state accordingly
     const fetchFavoriteSongs = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/v1/youtube/favoriteSongs");
+        const response = await axios.get(
+          "http://localhost:4000/api/v1/youtube/favoriteSongs"
+        );
         const favoriteSongs = response.data;
-        setIsLiked(favoriteSongs.some((song: { id: number; }) => song.id === props.id));
+        setIsLiked(
+          favoriteSongs.some((song: { id: number }) => song.id === props.id)
+        );
       } catch (error) {
         console.error("Error fetching favorite songs:", error);
       }
@@ -71,7 +77,7 @@ function SingleItem(props: itemProps): JSX.Element {
     } catch (error) {
       console.error("Error deleting song:", error);
     } finally {
-      handleClose(); // Close the modal after the action is completed
+      handleClose();
     }
   };
 
@@ -88,7 +94,6 @@ function SingleItem(props: itemProps): JSX.Element {
           favorite: !isLiked,
         })
       );
-      console.log(youtube.getState().songs.favoriteSongs);
     } catch (error) {
       console.error(
         `Error updating favorite status for song with id ${props.id}:`,
@@ -98,18 +103,25 @@ function SingleItem(props: itemProps): JSX.Element {
   };
 
   return (
-    <Grid item className="SingleItem" sx={{ mb: 2 }}>
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      lg={3}
+      className="SingleItem"
+      sx={{ mb: 2 }}
+    >
       <Box sx={{ mr: 4 }}>
-        <div className="Grid-Parent">
+        <Paper elevation={0} sx={{ ml: 2, padding: 1 }}>
           <div
-            className="Grid-Child"
-            onClick={() => {
-              navigate(`/player/${props.title}/${props.url.split("=")[1]}`);
-            }}
+            onClick={() =>
+              navigate(`/player/${props.title}/${props.url.split("=")[1]}`)
+            }
           >
             <img src={props.img} width={200} alt={props.title} />
           </div>
-          <div className="Grid-Child">
+          <div>
             {props.title}
             <hr />
             {props.description}
@@ -132,7 +144,7 @@ function SingleItem(props: itemProps): JSX.Element {
               }}
             />
           </div>
-        </div>
+        </Paper>
       </Box>
 
       <Dialog open={open} onClose={handleClose}>
