@@ -7,10 +7,15 @@ import { youtube } from "../../Redux/Store";
 import { addSongAction } from "../../Redux/SongReducer";
 import { downloadCategoryAction } from "../../Redux/CategoriesReducer";
 import Button from "@mui/material/Button";
-import {Typography } from "@mui/material";
-import { TextField, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import { Typography } from "@mui/material";
+import {
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 import { Category } from "../../modal/Category";
-
 
 function AddSongForm(): JSX.Element {
   const [refresh, setRefresh] = useState(false);
@@ -49,9 +54,16 @@ function AddSongForm(): JSX.Element {
   };
 
   const addNewSong = async () => {
+    if (!selectedCategory) {
+      alert("You must choose a category.");
+      return;
+    }
+
     const selectedCategoryObject = youtube
       .getState()
-      .category.categories.find((cat : Category) => cat.id === +selectedCategory);
+      .category.categories.find(
+        (cat: Category) => cat.id === +selectedCategory
+      );
 
     const newSong = new Song(
       songDesc,
@@ -76,7 +88,7 @@ function AddSongForm(): JSX.Element {
 
       newSong.id = +id;
       youtube.dispatch(addSongAction(newSong));
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Error adding new song:", error);
     }
@@ -94,7 +106,12 @@ function AddSongForm(): JSX.Element {
         variant="outlined"
         onKeyUp={(e) => setURL((e.target as HTMLInputElement).value)}
       />
-      <Button variant="contained" color="primary" onClick={searchSong} style={{ height: "56px" }}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={searchSong}
+        style={{ height: "56px" }}
+      >
         Search
       </Button>
       <br />
@@ -108,7 +125,7 @@ function AddSongForm(): JSX.Element {
         displayEmpty
         placeholder="Select category"
       >
-        <MenuItem disabled value="" aria-required>
+        <MenuItem disabled value={""} aria-required>
           Select category
         </MenuItem>
         {youtube.getState().category.categories.map((category: Category) => (
@@ -117,7 +134,7 @@ function AddSongForm(): JSX.Element {
           </MenuItem>
         ))}
       </Select>
-      
+
       <hr />
       <img src={songImg} alt={songTitle} />
       <br />
